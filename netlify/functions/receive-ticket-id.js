@@ -4,6 +4,11 @@ const handler = async (event) => {
       return {
         statusCode: 405,
         body: JSON.stringify({ message: 'Only POST requests are allowed.' }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
       };
     }
 
@@ -14,6 +19,11 @@ const handler = async (event) => {
       return {
         statusCode: 400,
         body: JSON.stringify({ message: 'ticketId is required.' }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
       };
     }
 

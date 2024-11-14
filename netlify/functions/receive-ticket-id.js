@@ -36,9 +36,9 @@ const handler = async (event) => {
         ticketId: ticketId,
       }),
       headers: {
-        'Access-Control-Allow-Origin': '*',  // Dopuszczenie pochodzenia (origin)
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',  // Dopuszczenie metod
-        'Access-Control-Allow-Headers': 'Content-Type',  // Dopuszczenie nagłówków
+        'Access-Control-Allow-Origin': '*', 
+        'Access-Control-Allow-Methods': 'POST, OPTIONS', 
+        'Access-Control-Allow-Headers': 'Content-Type',
       },
     };
   } catch (error) {

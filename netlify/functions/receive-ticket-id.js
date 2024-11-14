@@ -1,26 +1,42 @@
-exports.handler = async function(event, context) {
+const handler = async (event) => {
+  try {
     if (event.httpMethod !== 'POST') {
       return {
-        statusCode: 405,  
+        statusCode: 405,
         body: JSON.stringify({ message: 'Only POST requests are allowed.' }),
       };
     }
-  
-    let body;
-    try {
-      body = JSON.parse(event.body);
-    } catch (err) {
+
+    const body = JSON.parse(event.body);
+    const ticketId = body.ticketId;
+
+    if (!ticketId) {
       return {
-        statusCode: 400, 
-        body: JSON.stringify({ message: 'Invalid JSON payload.' }),
+        statusCode: 400,
+        body: JSON.stringify({ message: 'ticketId is required.' }),
       };
     }
-  
-    const ticketId = body.ticketId;
+
     console.log('Received ticketId:', ticketId);
-  
+
     return {
-      statusCode: 200, 
-      body: JSON.stringify({ message: 'Ticket ID received successfully!', ticketId }),
+      statusCode: 200,
+      body: JSON.stringify({
+        message: `Ticket ID received successfully!`,
+        ticketId: ticketId,
+      }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',  // Dopuszczenie pochodzenia (origin)
+        'Access-Control-Allow-Methods': 'POST, GET',  // Dopuszczenie metod
+        'Access-Control-Allow-Headers': 'Content-Type',  // Dopuszczenie nagłówków
+      },
     };
-  };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Error: ' + error.toString() }),
+    };
+  }
+};
+
+module.exports = { handler };

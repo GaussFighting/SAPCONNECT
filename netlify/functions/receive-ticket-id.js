@@ -1,22 +1,27 @@
+const allowedOrigins = ["https://1085214.apps.zdusercontent.com"];
+
 const handler = async (event) => {
   console.log("Received event:", event);
 
+  const origin = event.headers["origin"];
+
   const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
+
+  if (allowedOrigins.includes(origin)) {
+    corsHeaders["Access-Control-Allow-Origin"] = origin;
+  } else {
+    corsHeaders["Access-Control-Allow-Origin"] = "*";
+  }
 
   if (event.httpMethod === "GET") {
     console.log("Handling GET request...");
     return {
       statusCode: 200,
       body: JSON.stringify({ message: "GET request received" }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
+      headers: corsHeaders,
     };
   }
 

@@ -1,18 +1,22 @@
-// netlify/functions/receive-ticket-id.js
-
 exports.handler = async (event, context) => {
+  console.log("Received event:", event);
+
   const allowedOrigins = [
     "https://1085214.apps.zdusercontent.com",
     "https://dashing-churros-ab5aaa.netlify.app",
   ];
 
   const origin = event.headers["origin"];
+  console.log("Request Origin:", origin);
+
   let allowOrigin = "*";
   if (allowedOrigins.includes(origin)) {
     allowOrigin = origin;
+    console.log(`Origin ${origin} is allowed.`);
+  } else {
+    console.log(`Origin ${origin} is not allowed, defaulting to "*".`);
   }
 
-  // Obsługuje OPTIONS request (preflight)
   if (event.httpMethod === "OPTIONS") {
     console.log("Handling OPTIONS request...");
     return {
@@ -26,12 +30,15 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Obsługuje POST request
   if (event.httpMethod === "POST") {
     console.log("Handling POST request...");
+
     try {
       const body = JSON.parse(event.body);
+      console.log("Parsed body:", body);
+
       const ticketId = body.ticketId;
+      console.log("Received ticketId:", ticketId);
 
       if (!ticketId) {
         console.log("ticketId is required.");
@@ -46,8 +53,7 @@ exports.handler = async (event, context) => {
         };
       }
 
-      console.log("Received ticketId:", ticketId);
-
+      console.log("Ticket ID processed successfully:", ticketId);
       return {
         statusCode: 200,
         body: JSON.stringify({

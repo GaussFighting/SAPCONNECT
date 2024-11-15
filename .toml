@@ -1,0 +1,13 @@
+[build]
+  functions = "netlify/functions"  # Folder, w którym znajdują się funkcje serverless
+  publish = "build"  # Folder, który zawiera Twoje statyczne pliki do publikacji
+
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+  headers = { "Cache-Control" = "no-cache" }
+
+[[plugins]]
+  package = "@netlify/plugin-functions-core"

@@ -6,14 +6,12 @@ const allowedOrigins = [
 export default async function handler(request, context) {
   const origin = request.headers.get("origin");
 
-  // Dynamiczne ustawianie nagłówków CORS
-  let allowOrigin = "*"; // Domyślnie zezwól na dowolny origin
+  let allowOrigin = "*";
   if (origin && allowedOrigins.includes(origin)) {
-    allowOrigin = origin; // Ustaw nagłówek na dopuszczony origin
+    allowOrigin = origin;
   }
 
   if (request.method === "OPTIONS") {
-    // Obsługa preflight request
     return new Response(null, {
       status: 200,
       headers: {
@@ -105,5 +103,5 @@ export default async function handler(request, context) {
 }
 
 export const config = {
-  path: "/*", // Obsługuje wszystkie ścieżki
+  path: "/*",
 };

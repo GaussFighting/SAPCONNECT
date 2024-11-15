@@ -1,4 +1,6 @@
 const handler = async (event) => {
+  console.log("Received event:", JSON.stringify(event, null, 2));
+
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,

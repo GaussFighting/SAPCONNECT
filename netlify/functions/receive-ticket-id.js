@@ -1,8 +1,21 @@
 const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
-    // Handle CORS preflight request
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    };
+  }
+
+  if (event.httpMethod === "GET") {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({
+        message: "GET method not allowed. Use POST instead.",
+      }),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS",

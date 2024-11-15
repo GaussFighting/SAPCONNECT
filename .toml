@@ -3,9 +3,10 @@
 [build]
   publish = "dist"
   functions = "netlify/functions"  # folder z funkcjami
+  edge_functions = "netlify/edge-functions"
 
 [[edge_functions]]
-  function = "handler"  # Funkcja Edge
+  function = "handler.js"  # Funkcja Edge
   path = "/*"           # Obsługuje wszystkie ścieżki
 
 [[functions]]

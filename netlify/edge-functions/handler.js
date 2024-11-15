@@ -5,16 +5,17 @@ const allowedOrigins = [
   "https://dashing-churros-ab5aaa.netlify.app",
 ];
 
+// Assign the arrow function to a variable
 const handler = async (request) => {
   const origin = request.headers.get("origin");
 
-  // Domyślnie zezwól na dowolny origin
+  // Default to allowing any origin
   let allowOrigin = "*";
   if (origin && allowedOrigins.includes(origin)) {
     allowOrigin = origin;
   }
 
-  // Obsługa OPTIONS (preflight request)
+  // Handle OPTIONS (preflight request)
   if (request.method === "OPTIONS") {
     return new Response(null, {
       status: 200,
@@ -26,7 +27,7 @@ const handler = async (request) => {
     });
   }
 
-  // Obsługa GET request
+  // Handle GET request
   if (request.method === "GET") {
     console.log("Handling GET request...");
     return new Response(JSON.stringify({ message: "GET request received" }), {
@@ -40,7 +41,7 @@ const handler = async (request) => {
     });
   }
 
-  // Obsługuje POST request
+  // Handle POST request
   if (request.method === "POST") {
     console.log("Handling POST request...");
     try {
@@ -97,6 +98,7 @@ const handler = async (request) => {
     }
   }
 
+  // Method Not Allowed
   return new Response(JSON.stringify({ message: "Method Not Allowed" }), {
     status: 405,
     headers: {
@@ -108,4 +110,5 @@ const handler = async (request) => {
   });
 };
 
-module.exports = { handler };
+// Export the handler function
+export default handler;

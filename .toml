@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/.netlify/functions/*"
-  to = "/.netlify/functions/:splat"
+  to = "https://dashing-churros-ab5aaa.netlify.app"
   status = 200
   force = true
   headers = { "Cache-Control" = "no-cache" }

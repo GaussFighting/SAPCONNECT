@@ -3,80 +3,107 @@ const allowedOrigins = [
   "https://dashing-churros-ab5aaa.netlify.app",
 ];
 
-const handler = async (event) => {
-  console.log("Received event:", event);
+export default async function handler(request, context) {
+  const origin = request.headers.get("origin");
 
-  const origin = event.headers["origin"];
-
-  const corsHeaders = {
-    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
-
-  if (allowedOrigins.includes(origin)) {
-    corsHeaders["Access-Control-Allow-Origin"] = origin;
-  } else {
-    corsHeaders["Access-Control-Allow-Origin"] = "*";
+  // Dynamiczne ustawianie nagłówków CORS
+  let allowOrigin = "*"; // Domyślnie zezwól na dowolny origin
+  if (origin && allowedOrigins.includes(origin)) {
+    allowOrigin = origin; // Ustaw nagłówek na dopuszczony origin
   }
 
-  if (event.httpMethod === "GET") {
+  if (request.method === "OPTIONS") {
+    // Obsługa preflight request
+    return new Response(null, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": allowOrigin,
+        "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
+  if (request.method === "GET") {
     console.log("Handling GET request...");
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: "GET request received" }),
-      headers: corsHeaders,
-    };
+    return new Response(JSON.stringify({ message: "GET request received" }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": allowOrigin,
+        "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
   }
 
-  if (event.httpMethod === "OPTIONS") {
-    console.log("Handling OPTIONS request...");
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: "CORS preflight request successful" }),
-      headers: corsHeaders,
-    };
-  }
-
-  if (event.httpMethod === "POST") {
+  if (request.method === "POST") {
     console.log("Handling POST request...");
     try {
-      const body = JSON.parse(event.body);
+      const body = await request.json();
       const ticketId = body.ticketId;
 
       if (!ticketId) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ message: "ticketId is required." }),
-          headers: corsHeaders,
-        };
+        return new Response(
+          JSON.stringify({ message: "ticketId is required." }),
+          {
+            status: 400,
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": allowOrigin,
+              "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type",
+            },
+          }
+        );
       }
 
       console.log("Received ticketId:", ticketId);
 
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          message: `Ticket ID received successfully!`,
+      return new Response(
+        JSON.stringify({
+          message: "Ticket ID received successfully!",
           ticketId: ticketId,
         }),
-        headers: corsHeaders,
-      };
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": allowOrigin,
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        }
+      );
     } catch (error) {
       console.error("Error processing POST request:", error);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ message: "Error: " + error.toString() }),
-        headers: corsHeaders,
-      };
+      return new Response(
+        JSON.stringify({ message: "Error: " + error.toString() }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": allowOrigin,
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        }
+      );
     }
   }
 
-  console.log("Method Not Allowed:", event.httpMethod);
-  return {
-    statusCode: 405,
-    body: JSON.stringify({ message: "Method Not Allowed" }),
-    headers: corsHeaders,
-  };
-};
+  console.log("Method Not Allowed:", request.method);
+  return new Response(JSON.stringify({ message: "Method Not Allowed" }), {
+    status: 405,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": allowOrigin,
+      "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
+}
 
-module.exports = { handler };
+export const config = {
+  path: "/*", // Obsługuje wszystkie ścieżki
+};

@@ -1,4 +1,4 @@
 /* 
-  Access-Control-Allow-Origin: https://hft71.zendesk.com
+  Access-Control-Allow-Origin: "*"
   Access-Control-Allow-Methods: POST, GET, OPTIONS
   Access-Control-Allow-Headers: Content-Type

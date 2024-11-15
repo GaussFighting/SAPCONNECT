@@ -1,107 +1,87 @@
-const allowedOrigins = [
-  "https://1085214.apps.zdusercontent.com",
-  "https://dashing-churros-ab5aaa.netlify.app",
-];
+// netlify/functions/receive-ticket-id.js
 
-export default async function handler(request, context) {
-  const origin = request.headers.get("origin");
+exports.handler = async (event, context) => {
+  const allowedOrigins = [
+    "https://1085214.apps.zdusercontent.com",
+    "https://dashing-churros-ab5aaa.netlify.app",
+  ];
 
+  const origin = event.headers["origin"];
   let allowOrigin = "*";
-  if (origin && allowedOrigins.includes(origin)) {
+  if (allowedOrigins.includes(origin)) {
     allowOrigin = origin;
   }
 
-  if (request.method === "OPTIONS") {
-    return new Response(null, {
-      status: 200,
+  // Obsługuje OPTIONS request (preflight)
+  if (event.httpMethod === "OPTIONS") {
+    console.log("Handling OPTIONS request...");
+    return {
+      statusCode: 200,
       headers: {
         "Access-Control-Allow-Origin": allowOrigin,
         "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
       },
-    });
+      body: JSON.stringify({ message: "CORS preflight request successful" }),
+    };
   }
 
-  if (request.method === "GET") {
-    console.log("Handling GET request...");
-    return new Response(JSON.stringify({ message: "GET request received" }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": allowOrigin,
-        "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    });
-  }
-
-  if (request.method === "POST") {
+  // Obsługuje POST request
+  if (event.httpMethod === "POST") {
     console.log("Handling POST request...");
     try {
-      const body = await request.json();
+      const body = JSON.parse(event.body);
       const ticketId = body.ticketId;
 
       if (!ticketId) {
-        return new Response(
-          JSON.stringify({ message: "ticketId is required." }),
-          {
-            status: 400,
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": allowOrigin,
-              "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-              "Access-Control-Allow-Headers": "Content-Type",
-            },
-          }
-        );
+        console.log("ticketId is required.");
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ message: "ticketId is required." }),
+          headers: {
+            "Access-Control-Allow-Origin": allowOrigin,
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        };
       }
 
       console.log("Received ticketId:", ticketId);
 
-      return new Response(
-        JSON.stringify({
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
           message: "Ticket ID received successfully!",
           ticketId: ticketId,
         }),
-        {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": allowOrigin,
-            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type",
-          },
-        }
-      );
+        headers: {
+          "Access-Control-Allow-Origin": allowOrigin,
+          "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      };
     } catch (error) {
       console.error("Error processing POST request:", error);
-      return new Response(
-        JSON.stringify({ message: "Error: " + error.toString() }),
-        {
-          status: 500,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": allowOrigin,
-            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type",
-          },
-        }
-      );
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: "Error: " + error.toString() }),
+        headers: {
+          "Access-Control-Allow-Origin": allowOrigin,
+          "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      };
     }
   }
 
-  console.log("Method Not Allowed:", request.method);
-  return new Response(JSON.stringify({ message: "Method Not Allowed" }), {
-    status: 405,
+  console.log("Method Not Allowed:", event.httpMethod);
+  return {
+    statusCode: 405,
+    body: JSON.stringify({ message: "Method Not Allowed" }),
     headers: {
-      "Content-Type": "application/json",
       "Access-Control-Allow-Origin": allowOrigin,
       "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     },
-  });
-}
-
-export const config = {
-  path: "/*",
+  };
 };

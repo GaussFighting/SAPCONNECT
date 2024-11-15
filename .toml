@@ -1,13 +1,13 @@
+# netlify.toml
+
 [build]
-  functions = "netlify/functions"  
-  publish = "build"  
+  publish = "dist"
+  functions = "netlify/functions"  # folder z funkcjami
 
-[[redirects]]
-  from = "/.netlify/functions/*"
-  to = ""/.netlify/functions/:splat""
-  status = 200
-  force = true
-  headers = { "Cache-Control" = "no-cache" }
+[[edge_functions]]
+  function = "handler"  # Funkcja Edge
+  path = "/*"           # Obsługuje wszystkie ścieżki
 
-[[plugins]]
-  package = "@netlify/plugin-functions-core"
+[[functions]]
+  function = "receive-ticket-id"  # Funkcja Lambda
+  path = "/api/receive-ticket-id"  # Ścieżka do funkcji

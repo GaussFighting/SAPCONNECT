@@ -1,6 +1,6 @@
 [build]
-  functions = "netlify/functions"  # Folder, w którym znajdują się funkcje serverless
-  publish = "build"  # Folder, który zawiera Twoje statyczne pliki do publikacji
+  functions = "netlify/functions"  
+  publish = "build"  
 
 [[redirects]]
   from = "/.netlify/functions/*"

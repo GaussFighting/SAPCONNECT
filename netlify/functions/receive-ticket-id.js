@@ -1,33 +1,45 @@
 const handler = async (event) => {
-  try {
-    if (event.httpMethod !== 'POST') {
-      return {
-        statusCode: 405,
-        body: JSON.stringify({ message: 'Only POST requests are allowed.' }),
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        },
-      };
-    }
+  if (event.httpMethod === "OPTIONS") {
+    // Handle CORS preflight request
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    };
+  }
 
+  if (event.httpMethod !== "POST") {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ message: "Only POST requests are allowed." }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    };
+  }
+
+  try {
     const body = JSON.parse(event.body);
     const ticketId = body.ticketId;
 
     if (!ticketId) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: 'ticketId is required.' }),
+        body: JSON.stringify({ message: "ticketId is required." }),
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
         },
       };
     }
 
-    console.log('Received ticketId:', ticketId);
+    console.log("Received ticketId:", ticketId);
 
     return {
       statusCode: 200,
@@ -36,15 +48,20 @@ const handler = async (event) => {
         ticketId: ticketId,
       }),
       headers: {
-        'Access-Control-Allow-Origin': '*', 
-        'Access-Control-Allow-Methods': 'POST, OPTIONS', 
-        'Access-Control-Allow-Headers': 'Content-Type',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
       },
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Error: ' + error.toString() }),
+      body: JSON.stringify({ message: "Error: " + error.toString() }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
     };
   }
 };

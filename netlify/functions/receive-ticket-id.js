@@ -1,4 +1,7 @@
-const allowedOrigins = ["https://1085214.apps.zdusercontent.com"];
+const allowedOrigins = [
+  "https://1085214.apps.zdusercontent.com",
+  "https://dashing-churros-ab5aaa.netlify.app",
+];
 
 const handler = async (event) => {
   console.log("Received event:", event);

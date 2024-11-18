@@ -6,20 +6,20 @@ import {
   useLocation,
 } from "react-router-dom";
 import MainPage from "./components/MainPage";
-import Table from "./components/Table";
 import NoPage from "./components/NoPage";
+import DataTable from "./components/DataTable";
 
 const TicketIdProvider = ({ children }) => {
   const location = useLocation();
   const [ticketId, setTicketId] = useState(null);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
+    const queryParams = new URLSearchParams(location.search); // return query parameter string
     const id = queryParams.get("ticket_id");
     setTicketId(id);
   }, [location]);
 
-  return React.cloneElement(children, { ticketId });
+  return React.cloneElement(children, { ticketId }); // pass aditional props by cloning existing react element
 };
 
 const App = () => {
@@ -35,10 +35,26 @@ const App = () => {
           }
         />
         <Route
-          path={"/table"}
+          path={"/otherorders"}
           element={
             <TicketIdProvider>
-              <Table />
+              <DataTable />
+            </TicketIdProvider>
+          }
+        />
+        <Route
+          path={"/shipmentinfo"}
+          element={
+            <TicketIdProvider>
+              <DataTable />
+            </TicketIdProvider>
+          }
+        />
+        <Route
+          path={"/invoices"}
+          element={
+            <TicketIdProvider>
+              <DataTable />
             </TicketIdProvider>
           }
         />

@@ -1,7 +1,7 @@
 import React from "react";
 // import { useLocation } from "react-router-dom";
 
-const Table = (props) => {
+const Table = ({ ticketId }) => {
   // const location = useLocation();
 
   // const getTicketId = () => {
@@ -15,7 +15,7 @@ const Table = (props) => {
   return (
     <div>
       <h2>Informacje o Tickecie</h2>
-      <p>Ticket ID: {props.ticketId || "Brak ticket_id w URL"}</p>
+      <p>Ticket ID: {ticketId || "Brak ticket_id w URL"}</p>
     </div>
   );
 };

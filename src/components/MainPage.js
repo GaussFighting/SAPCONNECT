@@ -1,4 +1,5 @@
 const MainPage = (props) => {
-  return <div>{props.ticketId}</div>;
+  const ticketId = props.ticketId || "No ticket ID provided!";
+  return <div>Ticket ID: {ticketId}</div>;
 };
 export default MainPage;

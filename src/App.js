@@ -1,24 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import MainPage from "./components/MainPage";
 import Table from "./components/Table";
 import NoPage from "./components/NoPage";
 
-const App = () => {
+const TicketIdProvider = ({ children }) => {
+  const location = useLocation();
   const [ticketId, setTicketId] = useState(null);
+
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("ticketId");
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get("ticket_id");
     setTicketId(id);
-  }, []);
+  }, [location]);
+
+  return React.cloneElement(children, { ticketId });
+};
+
+const App = () => {
   return (
     <Router>
       <Routes>
         <Route
-          path={"/:ticket_id"}
-          element={<MainPage ticketId={ticketId} />}
+          path={"/"}
+          element={
+            <TicketIdProvider>
+              <MainPage />
+            </TicketIdProvider>
+          }
         />
-        <Route path={"/table"} element={<Table ticketId={ticketId} />} />
+        <Route
+          path={"/table"}
+          element={
+            <TicketIdProvider>
+              <Table />
+            </TicketIdProvider>
+          }
+        />
         <Route
           path={"/error"}
           element={<NoPage message={"Brak przesłanego ID ticketu!"} />}

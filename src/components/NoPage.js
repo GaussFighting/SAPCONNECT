@@ -1,4 +1,3 @@
-const NoPage = (props) => {
-  return <div>{props.message}</div>;
-};
+const NoPage = ({ message }) => <>{message}</>;
+
 export default NoPage;

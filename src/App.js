@@ -35,7 +35,7 @@ const App = () => {
           }
         />
         <Route
-          path={"/otherorders"}
+          path={"/other-orders"}
           element={
             <TicketIdProvider>
               <DataTable />
@@ -43,7 +43,7 @@ const App = () => {
           }
         />
         <Route
-          path={"/shipmentinfo"}
+          path={"/shipment-info"}
           element={
             <TicketIdProvider>
               <DataTable />

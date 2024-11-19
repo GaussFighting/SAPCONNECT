@@ -1,21 +1,22 @@
 import React from "react";
-import MPButton from "./MPButton";
+import MPNavItem from "./MPNavItem";
+import { Nav } from "reactstrap";
 
 const MPMenu = ({ ticketId }) => {
-  const pathArr = ["/otherorders", "/shipmentinfo", "/invoices"];
+  const pathArr = ["/other-orders", "/shipment-info", "/invoices"];
   const labelsArr = ["Inne zamówienia", "Wysyłka", "Faktury"];
 
   return (
-    <>
+    <Nav>
       {pathArr.map((path, idx) => (
-        <MPButton
+        <MPNavItem
           key={`${path}+${idx}`}
           ticketId={ticketId}
           path={pathArr[idx]}
           label={labelsArr[idx]}
         />
       ))}
-    </>
+    </Nav>
   );
 };
 

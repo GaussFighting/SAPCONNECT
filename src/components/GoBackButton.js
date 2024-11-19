@@ -8,10 +8,10 @@ const GoBackButton = ({ ticketId }) => {
   const goBackPath = `/?ticket_id=${ticketId}`;
   return (
     <>
-      <Nav>
+      <Nav className="go-back-icon">
         <NavItem>
           <NavLink to={goBackPath}>
-            <FontAwesomeIcon icon={faCircleLeft}></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faCircleLeft} size="3x"></FontAwesomeIcon>
           </NavLink>
         </NavItem>
       </Nav>

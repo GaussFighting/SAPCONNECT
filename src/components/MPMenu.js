@@ -7,7 +7,7 @@ const MPMenu = ({ ticketId }) => {
   const labelsArr = ["Inne zamówienia", "Wysyłka", "Faktury"];
 
   return (
-    <Nav>
+    <Nav className="menu" vertical>
       {pathArr.map((path, idx) => (
         <MPNavItem
           key={`${path}+${idx}`}

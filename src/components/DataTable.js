@@ -1,61 +1,86 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import GoBackButton from "./GoBackButton";
 import { useLocation } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid"; // Zmieniono z 'DataGridPro' na 'DataGrid'
-import dummydata from "../data/dummydata.json";
+import { DataGrid } from "@mui/x-data-grid";
+import CircularProgress from "@mui/material/CircularProgress";
+import { getColumns, getRows } from "../utils/utils";
 
 const DataTable = ({ ticketId }) => {
   const location = useLocation();
   let title = "";
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const getDataForPath = () => {
-    if (location.pathname.includes("other-orders")) {
-      title = "Otwarte zamówienia";
-      return { data: dummydata.RestOrders, title };
-    }
-    if (location.pathname.includes("shipment-info")) {
-      title = "Dane wysyłki";
-      return { data: dummydata.Shipement, title };
-    }
-    if (location.pathname.includes("invoices")) {
-      title = "Faktury";
-      return { data: dummydata.Invoices, title };
-    }
-    return { data: [], title: "Brak danych" };
+  const endpointFromPath = () => {
+    if (location.pathname.includes("other-orders"))
+      return { path: "restorders", title: "Pozostałe zamówienia" };
+    if (location.pathname.includes("shipment-info"))
+      return { path: "shipment", title: "Dane wysyłki" };
+    if (location.pathname.includes("invoices"))
+      return { path: "invoices", title: "Faktury" };
   };
 
-  const { data, title: pageTitle } = getDataForPath();
+  let endpoint = endpointFromPath().path;
+  title = endpointFromPath().title;
 
-  const columns =
-    data.length > 0
-      ? Object.keys(data[0]).map((key) => ({
-          field: key,
-          headerName: key.charAt(0).toUpperCase() + key.slice(1),
-          width: 180,
-        }))
-      : [];
+  const fetchData = async (ticketId, endpoint, setData) => {
+    setLoading(true);
+    try {
+      const response = await fetch("/.netlify/functions/endpoints", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ticketId,
+          endpoint,
+        }),
+      });
 
-  // Mapowanie danych na format 'rows' akceptowany przez DataGrid
-  const rows = data.map((row, index) => ({
-    id: index, // Każdy wiersz musi mieć unikalny 'id'
-    ...row, // Rozwinięcie danych z obiektu
-  }));
+      const result = await response.json();
+      console.log(result);
+      if (response.ok) {
+        setData(result);
+      } else {
+        setError(result.error || "Unknown error");
+      }
+    } catch (error) {
+      setError("Failed to fetch data");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!data) {
+      fetchData(ticketId, endpoint, setData);
+    }
+  }, [ticketId, endpoint, data]);
 
   return (
     <>
       <GoBackButton ticketId={ticketId} />
-      <div>
-        <h3>{pageTitle}</h3>
-      </div>
-      <div style={{ height: "400px", width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5} // liczba wierszy na stronę
-          rowsPerPageOptions={[5]} // opcje wyboru liczby wierszy na stronie
-          checkboxSelection
-        />
-      </div>
+      {loading && (
+        <div className="loading-spinner">
+          <CircularProgress />
+        </div>
+      )}
+      {!loading && data && (
+        <div>
+          <div className="title">{title}</div>
+          <div style={{ height: "400px", width: "100%" }}>
+            <DataGrid
+              rows={getRows(data)}
+              columns={getColumns(data)}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+            />
+          </div>
+        </div>
+      )}
+      {error && <div>Error: {error}</div>}
     </>
   );
 };

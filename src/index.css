@@ -36,3 +36,15 @@ code {
   display: flex;
   justify-content: center;
 }
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.title {
+  font-size: 26px;
+  text-align: center;
+  padding: 8px 8px;
+}

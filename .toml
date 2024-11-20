@@ -3,12 +3,15 @@
 [build]
   publish = "dist"
   functions = "netlify/functions"  # folder z funkcjami
-  edge_functions = "netlify/edge-functions"
-
-[[edge_functions]]
-  function = "handler.js"  # Funkcja Edge
-  path = "/*"           # Obsługuje wszystkie ścieżki
+  HANA_USERNAME = "your_username"
+  HANA_PASSWORD = "your_password"
 
 [[functions]]
-  function = "receive-ticket-id"  # Funkcja Lambda
-  path = "/api/receive-ticket-id"  # Ścieżka do funkcji
+  directory = "netlify/functions"
+  external_node_modules = ["node-fetch"]
+
+[build.environment]
+  API_BASE = "https://hft71.eu/api/v1/zendesk"
+
+[dev.environment]
+  API_BASE = "http://localhost:8888/.netlify/functions"

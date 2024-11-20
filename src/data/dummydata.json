@@ -98,9 +98,149 @@
       "RequestedDate": "2025-01-15 00:00:00.000",
       "StockAvailable": "Y",
       "Comments": null
+    },
+    {
+      "OrderNumber": "6611",
+      "DocumentStatus": "08-VAS",
+      "RequestedDate": "2025-01-15 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "6610",
+      "DocumentStatus": "08-VAS",
+      "RequestedDate": "2025-01-15 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "52894",
+      "DocumentStatus": "03 - Confirmed",
+      "RequestedDate": "2024-10-07 00:00:00.000",
+      "StockAvailable": "N",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "51098",
+      "DocumentStatus": "03 - Confirmed",
+      "RequestedDate": "2024-08-08 00:00:00.000",
+      "StockAvailable": "P",
+      "Comments": "Snipes CH"
+    },
+    {
+      "OrderNumber": "52827",
+      "DocumentStatus": "10 - To be solved",
+      "RequestedDate": "2024-08-08 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": "WSTRZYMANE NA PROŚBĘ KLIENTA"
+    },
+    {
+      "OrderNumber": "52827_1",
+      "DocumentStatus": "03 - Confirmed",
+      "RequestedDate": "2024-10-22 00:00:00.000",
+      "StockAvailable": "N",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "50309",
+      "DocumentStatus": "10 - To be solved",
+      "RequestedDate": "2024-07-18 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": "MPROD-SP 1 box MJ"
+    },
+    {
+      "OrderNumber": "50310",
+      "DocumentStatus": "10 - To be solved",
+      "RequestedDate": "2024-07-18 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "52994",
+      "DocumentStatus": "03 - Confirmed",
+      "RequestedDate": "2024-10-22 00:00:00.000",
+      "StockAvailable": "N",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "6612",
+      "DocumentStatus": "08 - VAS",
+      "RequestedDate": "2025-01-15 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "6611",
+      "DocumentStatus": "08-VAS",
+      "RequestedDate": "2025-01-15 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "6610",
+      "DocumentStatus": "08-VAS",
+      "RequestedDate": "2025-01-15 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "52894",
+      "DocumentStatus": "03 - Confirmed",
+      "RequestedDate": "2024-10-07 00:00:00.000",
+      "StockAvailable": "N",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "51098",
+      "DocumentStatus": "03 - Confirmed",
+      "RequestedDate": "2024-08-08 00:00:00.000",
+      "StockAvailable": "P",
+      "Comments": "Snipes CH"
+    },
+    {
+      "OrderNumber": "52827",
+      "DocumentStatus": "10 - To be solved",
+      "RequestedDate": "2024-08-08 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": "WSTRZYMANE NA PROŚBĘ KLIENTA"
+    },
+    {
+      "OrderNumber": "52827_1",
+      "DocumentStatus": "03 - Confirmed",
+      "RequestedDate": "2024-10-22 00:00:00.000",
+      "StockAvailable": "N",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "50309",
+      "DocumentStatus": "10 - To be solved",
+      "RequestedDate": "2024-07-18 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": "MPROD-SP 1 box MJ"
+    },
+    {
+      "OrderNumber": "50310",
+      "DocumentStatus": "10 - To be solved",
+      "RequestedDate": "2024-07-18 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "52994",
+      "DocumentStatus": "03 - Confirmed",
+      "RequestedDate": "2024-10-22 00:00:00.000",
+      "StockAvailable": "N",
+      "Comments": null
+    },
+    {
+      "OrderNumber": "6612",
+      "DocumentStatus": "08 - VAS",
+      "RequestedDate": "2025-01-15 00:00:00.000",
+      "StockAvailable": "Y",
+      "Comments": null
     }
   ],
-  "Shipement": [
+  "Shipment": [
     {
       "OrderNumber": "6606-A",
       "ShippingDate": "2024-10-10 00:00:00.000",

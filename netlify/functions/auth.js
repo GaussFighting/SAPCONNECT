@@ -1,7 +1,16 @@
 exports.handler = async () => {
-  const loginUrl = "https://hft71.eu/api/v1/authentication/login";
+  const loginUrl = process.env.HANA_LOGIN_URL;
   const username = process.env.HANA_USERNAME;
   const password = process.env.HANA_PASSWORD;
+
+  if (!loginUrl || !username || !password) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error: "Missing required environment variables",
+      }),
+    };
+  }
 
   let tokenData = null;
 

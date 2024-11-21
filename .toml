@@ -12,6 +12,8 @@
 
 [build.environment]
   API_BASE = "https://hft71.eu/api/v1/zendesk"
-
+  NODE_ENV = "production"
+  
 [dev.environment]
   API_BASE = "http://localhost:8888/.netlify/functions"
+

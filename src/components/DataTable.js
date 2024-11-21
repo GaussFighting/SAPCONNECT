@@ -39,7 +39,6 @@ const DataTable = ({ ticketId }) => {
       });
 
       const result = await response.json();
-      console.log(result);
       if (response.ok) {
         setData(result);
       } else {

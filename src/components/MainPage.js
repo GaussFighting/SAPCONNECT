@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MPMenu from "./MPMenu";
-import { DataGrid } from "@mui/x-data-grid";
-import { getColumns, getRows } from "../utils/utils";
 import CircularProgress from "@mui/material/CircularProgress";
+import RenderDataGrid from "./RenderDataGrid";
 
 const MainPage = (props) => {
   const ticketId =
@@ -46,19 +45,6 @@ const MainPage = (props) => {
     fetchData("currentorders", ticketId);
   }, [ticketId]);
 
-  const renderDataGrid = (title, dataKey) => (
-    <>
-      <div className="title">{title}</div>
-      <DataGrid
-        rows={getRows(data[dataKey])}
-        columns={getColumns(data[dataKey])}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        style={{ marginBottom: "20px" }}
-      />
-    </>
-  );
-
   return (
     <>
       <MPMenu ticketId={ticketId} />
@@ -67,12 +53,20 @@ const MainPage = (props) => {
           <CircularProgress />
         </div>
       )}
-      {!loading &&
-        data.clientinfo &&
-        renderDataGrid("Dane Klienta", "clientinfo")}
-      {!loading &&
-        data.currentorders &&
-        renderDataGrid("Zamówienia", "currentorders")}
+      {!loading && data.clientinfo && (
+        <RenderDataGrid
+          data={data}
+          title={"Dane Klienta"}
+          dataKey={"clientinfo"}
+        />
+      )}
+      {!loading && data.currentorders && (
+        <RenderDataGrid
+          data={data}
+          title={"Zamówienia"}
+          dataKey={"currentorders"}
+        />
+      )}
       {error && <div>Error: {error}</div>}
     </>
   );

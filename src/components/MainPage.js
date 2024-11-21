@@ -5,7 +5,7 @@ import RenderDataGrid from "./RenderDataGrid";
 
 const MainPage = (props) => {
   const ticketId =
-    process.env.NODE_ENV === "development" ? "42380" : props.ticketId;
+    process.env.NODE_ENV === "development" ? "40076" : props.ticketId;
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);

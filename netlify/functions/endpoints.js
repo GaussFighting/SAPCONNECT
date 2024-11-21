@@ -1,11 +1,10 @@
 exports.handler = async (event) => {
   try {
     const { ticketId, endpoint } = JSON.parse(event.body);
-    console.log("AAAAA", process.env.NODE_ENV);
     const authUrl =
       process.env.NODE_ENV === "development"
-        ? "http://localhost:8888/.netlify/functions/auth" // Lokalny URL
-        : `${process.env.URL}/.netlify/functions/auth`; // Produkcyjny URL
+        ? "http://localhost:8888/.netlify/functions/auth"
+        : `${process.env.URL}/.netlify/functions/auth`;
     const authResponse = await fetch(authUrl);
     const authData = await authResponse.json();
     const token = authData.access_token;

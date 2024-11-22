@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import MPMenu from "./MPMenu";
 import CircularProgress from "@mui/material/CircularProgress";
 import RenderDataGrid from "./RenderDataGrid";
+import Error from "./Error";
 
-const MainPage = (props) => {
-  const ticketId =
-    process.env.NODE_ENV === "development" ? "40076" : props.ticketId;
+const MainPage = ({ ticketId }) => {
+  // const ticketId =
+  //   process.env.NODE_ENV === "development" ? props.ticketId : props.ticketId;
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ const MainPage = (props) => {
 
       if (response.ok) {
         setData((prev) => ({ ...prev, [endpoint]: result }));
+        setError(null);
       } else {
         setError(result.error || "Unknown error");
       }
@@ -67,7 +69,7 @@ const MainPage = (props) => {
           dataKey={"currentorders"}
         />
       )}
-      {error && <div>Error: {error}</div>}
+      {error && <Error error={error} />}
     </>
   );
 };

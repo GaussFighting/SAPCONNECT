@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getColumns, getRows } from "../utils/utils";
+import Error from "./Error";
 
 const DataTable = ({ ticketId }) => {
   const location = useLocation();
@@ -41,6 +42,7 @@ const DataTable = ({ ticketId }) => {
       const result = await response.json();
       if (response.ok) {
         setData(result);
+        setError(null);
       } else {
         setError(result.error || "Unknown error");
       }
@@ -79,7 +81,7 @@ const DataTable = ({ ticketId }) => {
           </div>
         </div>
       )}
-      {error && <div>Error: {error}</div>}
+      {error && <Error error={error} />}
     </>
   );
 };

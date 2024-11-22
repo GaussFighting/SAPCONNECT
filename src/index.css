@@ -46,5 +46,13 @@ code {
 .title {
   font-size: 26px;
   text-align: center;
-  padding: 8px 8px;
+  padding: 0px 8px 8px 8px;
+}
+
+.MuiDataGrid-root {
+  margin: 0px !important;
+}
+.error {
+  display: flex;
+  justify-content: center;
 }

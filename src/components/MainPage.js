@@ -5,14 +5,11 @@ import RenderDataGrid from "./RenderDataGrid";
 import Error from "./Error";
 
 const MainPage = ({ ticketId }) => {
-  // const ticketId =
-  //   process.env.NODE_ENV === "development" ? props.ticketId : props.ticketId;
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({ clientinfo: null, currentorders: null });
 
-  const fetchData = async (endpoint, ticketId) => {
+  const fetchData = async (ticketId, endpoint) => {
     setLoading(true);
     try {
       const response = await fetch("/.netlify/functions/endpoints", {
@@ -29,7 +26,10 @@ const MainPage = ({ ticketId }) => {
       const result = await response.json();
 
       if (response.ok) {
-        setData((prev) => ({ ...prev, [endpoint]: result }));
+        setData((prev) => {
+          const updatedData = { ...prev, [endpoint]: result };
+          return updatedData;
+        });
         setError(null);
       } else {
         setError(result.error || "Unknown error");
@@ -43,9 +43,15 @@ const MainPage = ({ ticketId }) => {
   };
 
   useEffect(() => {
-    fetchData("clientinfo", ticketId);
-    fetchData("currentorders", ticketId);
+    if (ticketId) {
+      fetchData(ticketId, "clientinfo");
+      fetchData(ticketId, "currentorders");
+    }
   }, [ticketId]);
+
+  if (!ticketId) {
+    return <div>Ładowanie ticketId...</div>;
+  }
 
   return (
     <>

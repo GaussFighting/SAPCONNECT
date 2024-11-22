@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import GoBackButton from "./GoBackButton";
 import { useLocation } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getColumns, getRows } from "../utils/utils";
 import Error from "./Error";
+import RenderDataGrid from "./RenderDataGrid";
 
 const DataTable = ({ ticketId }) => {
   const location = useLocation();
-  let title = "";
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  let title = "";
 
   const endpointFromPath = () => {
     if (location.pathname.includes("other-orders"))
@@ -25,7 +24,7 @@ const DataTable = ({ ticketId }) => {
   let endpoint = endpointFromPath().path;
   title = endpointFromPath().title;
 
-  const fetchData = async (ticketId, endpoint, setData) => {
+  const fetchData = async (ticketId, endpoint) => {
     setLoading(true);
     try {
       const response = await fetch("/.netlify/functions/endpoints", {
@@ -40,8 +39,12 @@ const DataTable = ({ ticketId }) => {
       });
 
       const result = await response.json();
+
       if (response.ok) {
-        setData(result);
+        setData((prev) => {
+          const updatedData = { ...prev, [endpoint]: result };
+          return updatedData;
+        });
         setError(null);
       } else {
         setError(result.error || "Unknown error");
@@ -55,10 +58,14 @@ const DataTable = ({ ticketId }) => {
   };
 
   useEffect(() => {
-    if (!data) {
-      fetchData(ticketId, endpoint, setData);
+    if (ticketId && (!data || !data[endpoint])) {
+      fetchData(ticketId, endpoint);
     }
   }, [ticketId, endpoint, data]);
+
+  if (!ticketId) {
+    return <div>Ładowanie ticketId...</div>;
+  }
 
   return (
     <>
@@ -69,17 +76,7 @@ const DataTable = ({ ticketId }) => {
         </div>
       )}
       {!loading && data && (
-        <div>
-          <div className="title">{title}</div>
-          <div style={{ height: "400px", width: "100%" }}>
-            <DataGrid
-              rows={getRows(data)}
-              columns={getColumns(data)}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
-          </div>
-        </div>
+        <RenderDataGrid data={data} title={title} dataKey={endpoint} />
       )}
       {error && <Error error={error} />}
     </>

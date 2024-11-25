@@ -9,6 +9,8 @@ const GoBackButton = ({ ticketId }) => {
   return (
     <>
       <Nav className="go-back-icon">
+        {" "}
+        {/* Nav in the Button component? :O */}
         <NavItem>
           <NavLink to={goBackPath}>
             <FontAwesomeIcon icon={faCircleLeft} size="3x"></FontAwesomeIcon>

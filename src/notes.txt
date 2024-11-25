@@ -1,0 +1,6 @@
+1. Pls, remove redundant files :)
+2. You have very up to date packages :D Well done :D
+3. Good, old school way notation for constant values, i.e. for /other-orders - you could create a file like "constants.js" :)
+I.e. 
+export PATH_OTHER_ORDERS = "/other-orders" 
+It looks like an overkill, but it saves hours of debugging due to a typos :D

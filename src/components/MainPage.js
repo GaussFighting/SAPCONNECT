@@ -10,6 +10,7 @@ const MainPage = ({ ticketId }) => {
   const [data, setData] = useState({ clientinfo: null, currentorders: null });
 
   const fetchData = async (ticketId, endpoint) => {
+    // you use the same function in MainPage and DataTable - maybe custom hook would be helpful here?
     setLoading(true);
     try {
       const response = await fetch("/.netlify/functions/endpoints", {
@@ -27,10 +28,10 @@ const MainPage = ({ ticketId }) => {
 
       if (response.ok) {
         setData((prev) => {
-          const updatedData = { ...prev, [endpoint]: result };
+          const updatedData = { ...prev, [endpoint]: result }; // TTT: Good idea with [endpoint] :D Tiny note: You may use a shorten syntax here :)
           return updatedData;
         });
-        setError(null);
+        setError(null); // Ha, nice :D So easy to forget about it :D
       } else {
         setError(result.error || "Unknown error");
       }
@@ -61,13 +62,14 @@ const MainPage = ({ ticketId }) => {
           <CircularProgress />
         </div>
       )}
-      {!loading && data.clientinfo && (
-        <RenderDataGrid
-          data={data}
-          title={"Dane Klienta"}
-          dataKey={"clientinfo"}
-        />
-      )}
+      {!loading &&
+        data.clientinfo && ( // maaaybe...you could pass "loading" as a param, then you could check once if it loads or not in the component :)
+          <RenderDataGrid
+            data={data} // here and beneath you pass the same data to those components. More clean would be to pass only particular data set
+            title={"Dane Klienta"}
+            dataKey={"clientinfo"}
+          />
+        )}
       {!loading && data.currentorders && (
         <RenderDataGrid
           data={data}

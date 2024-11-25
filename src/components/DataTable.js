@@ -19,10 +19,11 @@ const DataTable = ({ ticketId }) => {
       return { path: "shipment", title: "Dane wysyłki" };
     if (location.pathname.includes("invoices"))
       return { path: "invoices", title: "Faktury" };
+    // what will happen if no condition fits? :)
   };
 
   let endpoint = endpointFromPath().path;
-  title = endpointFromPath().title;
+  title = endpointFromPath().title; // maybe just let title = ... ? :)
 
   const fetchData = async (ticketId, endpoint) => {
     setLoading(true);

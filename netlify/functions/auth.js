@@ -16,6 +16,7 @@ exports.handler = async () => {
 
   if (!tokenData || Date.now() >= tokenData.expires_in) {
     const response = await fetch(loginUrl, {
+      // try/catch block is missing :)
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -33,6 +34,7 @@ exports.handler = async () => {
     const { access_token, expires_in, token_type } = data;
 
     if (!expires_in) {
+      // is it possible?
       return {
         statusCode: 500,
         body: JSON.stringify({

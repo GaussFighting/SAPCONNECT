@@ -15,41 +15,50 @@ exports.handler = async () => {
   let tokenData = null;
 
   if (!tokenData || Date.now() >= tokenData.expires_in) {
-    const response = await fetch(loginUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await fetch(loginUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (!response.ok) {
-      return {
-        statusCode: response.status,
-        body: JSON.stringify({ error: "Authentication failed" }),
+      if (!response.ok) {
+        return {
+          statusCode: response.status,
+          body: JSON.stringify({ error: "Authentication failed" }),
+        };
+      }
+
+      const data = await response.json();
+
+      const { access_token, expires_in, token_type } = data;
+
+      if (!expires_in) {
+        return {
+          statusCode: 500,
+          body: JSON.stringify({
+            error: "expires_in is missing in the response",
+          }),
+        };
+      }
+
+      // Convert the expires_in string to a Date object and calculate the expiration time
+      const expirationDate = new Date(expires_in);
+      const expirationTimestamp = expirationDate.getTime(); // Get milliseconds since epoch
+
+      tokenData = {
+        access_token,
+        expires_in: expirationTimestamp,
+        token_type,
       };
-    }
-
-    const data = await response.json();
-
-    const { access_token, expires_in, token_type } = data;
-
-    if (!expires_in) {
+    } catch (error) {
       return {
         statusCode: 500,
         body: JSON.stringify({
-          error: "expires_in is missing in the response",
+          error: "Failed to fetch authentication token: " + error.message,
         }),
       };
     }
-
-    // Convert the expires_in string to a Date object and calculate the expiration time
-    const expirationDate = new Date(expires_in);
-    const expirationTimestamp = expirationDate.getTime(); // Get milliseconds since epoch
-
-    tokenData = {
-      access_token,
-      expires_in: expirationTimestamp,
-      token_type,
-    };
   }
 
   return {

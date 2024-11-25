@@ -1,12 +1,12 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { getColumns, getRows } from "../utils/utils";
-const RenderDataGrid = ({ data, title, dataKey }) => (
+const InfoGrid = ({ data, title }) => (
   <>
     <div className="title">{title}</div>
     <DataGrid
-      rows={getRows(data[dataKey])}
-      columns={getColumns(data[dataKey])}
+      rows={getRows(data)}
+      columns={getColumns(data)}
       pageSize={5}
       rowsPerPageOptions={[5]}
       style={{ marginBottom: "20px" }}
@@ -14,4 +14,4 @@ const RenderDataGrid = ({ data, title, dataKey }) => (
   </>
 );
 
-export default RenderDataGrid;
+export default InfoGrid;

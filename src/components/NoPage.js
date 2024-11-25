@@ -1,3 +1,3 @@
-const NoPage = ({ message }) => <>{message}</>;
+const NoPage = ({ message }) => <div>{message}</div>;
 
 export default NoPage;

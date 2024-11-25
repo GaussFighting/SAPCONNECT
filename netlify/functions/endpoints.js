@@ -1,11 +1,10 @@
 exports.handler = async (event) => {
-  // Just to check: does the HANA provides only authentication/login endpoint or maybe /refresh endpoint as well? :)
   try {
     const { ticketId, endpoint } = JSON.parse(event.body);
     const authUrl =
       process.env.NODE_ENV === "development"
         ? "http://localhost:8888/.netlify/functions/auth"
-        : `${process.env.URL}/.netlify/functions/auth`; // there is no "URL" in .env (?) - btw. URL is a not accurate name for a env var ;) You may have 500 envs like URL :D
+        : `/.netlify/functions/auth`;
     const authResponse = await fetch(authUrl);
     const authData = await authResponse.json();
     const token = authData.access_token;
@@ -16,8 +15,9 @@ exports.handler = async (event) => {
         body: JSON.stringify({ error: "Failed to get the access token" }),
       };
     }
+    console.log(process.env.HANA_API_BASE, process.env.NODE_ENV);
+    const apiBase = process.env.HANA_API_BASE;
 
-    const apiBase = "https://hft71.eu/api/v1/zendesk"; // security issue :(( NO URLs in the code are allowed :(
     let url;
     if (endpoint === "clientinfo") {
       url = `${apiBase}/clientinfo?ticketId=${ticketId}`;

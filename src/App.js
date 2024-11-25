@@ -15,7 +15,7 @@ const TicketIdProvider = ({ children }) => {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search); // return query parameter string
-    const id = queryParams.get("ticket_id"); // TTT: question only: is is required to use useEffect for getting a ticket id?
+    const id = queryParams.get("ticket_id");
     setTicketId(id);
   }, [location]);
 
@@ -30,7 +30,6 @@ const App = () => {
           path={"/"}
           element={
             <TicketIdProvider>
-              {/* TTT: question only: if you use TicetIdProvider almost for each route, maybe you could wrap all of them once? Orrr...even wrap all of routes? */}
               <MainPage />
             </TicketIdProvider>
           }

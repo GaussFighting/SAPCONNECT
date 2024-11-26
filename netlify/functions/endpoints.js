@@ -5,7 +5,7 @@ exports.handler = async (event) => {
     const authUrl =
       process.env.NODE_ENV === "development"
         ? "http://localhost:8888/.netlify/functions/auth"
-        : `/.netlify/functions/auth`;
+        : `${process.env.URL}/.netlify/functions/auth`;
     const authResponse = await fetch(authUrl);
     const authData = await authResponse.json();
     const token = authData.access_token;

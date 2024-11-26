@@ -6,6 +6,8 @@ const useFetchData = (ticketId, endpoint) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log("Payload:", { ticketId, endpoint });
+    console.log("HANA API BASE:", process.env.HANA_API_BASE);
     const fetchData = async () => {
       if (!ticketId || !endpoint) return;
 

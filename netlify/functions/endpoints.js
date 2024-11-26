@@ -1,4 +1,5 @@
 exports.handler = async (event) => {
+  console.log("Received request:", event.body);
   try {
     const { ticketId, endpoint } = JSON.parse(event.body);
     const authUrl =

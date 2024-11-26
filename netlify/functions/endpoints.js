@@ -1,5 +1,4 @@
 exports.handler = async (event) => {
-  console.log("Received request:", event.body);
   try {
     const { ticketId, endpoint } = JSON.parse(event.body);
     const authUrl =
@@ -16,7 +15,6 @@ exports.handler = async (event) => {
         body: JSON.stringify({ error: "Failed to get the access token" }),
       };
     }
-    console.log(process.env.HANA_API_BASE, process.env.NODE_ENV);
     const apiBase = process.env.HANA_API_BASE;
 
     let url;

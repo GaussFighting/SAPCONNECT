@@ -16,6 +16,8 @@ const DataTable = ({ ticketId }) => {
       return { path: "shipment", title: "Dane wysyłki" };
     if (location.pathname.includes("invoices"))
       return { path: "invoices", title: "Faktury" };
+    if (location.pathname.includes("overdue-payments"))
+      return { path: "overduepayments", title: "Przeterminowane należności" };
   };
 
   const { path: endpoint, title } = endpointFromPath();

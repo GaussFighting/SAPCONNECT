@@ -59,6 +59,14 @@ const App = () => {
           }
         />
         <Route
+          path={"/overdue-payments"}
+          element={
+            <TicketIdProvider>
+              <DataTable />
+            </TicketIdProvider>
+          }
+        />
+        <Route
           path={"/error"}
           element={<NoPage message={"Brak przesłanego ID ticketu!"} />}
         />

@@ -3,8 +3,18 @@ import MPNavItem from "./MPNavItem";
 import { Nav } from "reactstrap";
 
 const MPMenu = ({ ticketId }) => {
-  const pathArr = ["/other-orders", "/shipment-info", "/invoices"];
-  const labelsArr = ["Inne zamówienia", "Wysyłka", "Faktury"];
+  const pathArr = [
+    "/other-orders",
+    "/shipment-info",
+    "/invoices",
+    "/overdue-payments",
+  ];
+  const labelsArr = [
+    "Inne zamówienia",
+    "Wysyłka",
+    "Faktury",
+    "Przeterminowane należności",
+  ];
 
   return (
     <Nav className="menu" vertical>

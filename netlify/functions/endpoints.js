@@ -28,6 +28,8 @@ exports.handler = async (event) => {
       url = `${apiBase}/shipment?ticketId=${ticketId}`;
     } else if (endpoint === "invoices") {
       url = `${apiBase}/invoices?ticketId=${ticketId}`;
+    } else if (endpoint === "overduepayments") {
+      url = `${apiBase}/overduepayments?ticketId=${ticketId}`;
     } else {
       return {
         statusCode: 400,

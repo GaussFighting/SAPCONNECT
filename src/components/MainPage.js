@@ -16,9 +16,19 @@ const MainPage = ({ ticketId }) => {
     error: currentOrdersError,
     loading: currentOrdersLoading,
   } = useFetchData(ticketId, "currentorders");
+  const {
+    data: purchaseOrders,
+    error: purchaseOrdersError,
+    loading: purchaseOrdersLoading,
+  } = useFetchData(ticketId, "purchaseorders");
 
-  const isLoading = clientInfoLoading || currentOrdersLoading;
-  const error = clientInfoError || currentOrdersError;
+  const isLoading =
+    clientInfoLoading || currentOrdersLoading || purchaseOrdersLoading;
+  const errors = [
+    clientInfoError,
+    currentOrdersError,
+    purchaseOrdersError,
+  ].filter(Boolean);
 
   if (!ticketId) {
     return <div>Ładowanie ticketId...</div>;
@@ -46,7 +56,20 @@ const MainPage = ({ ticketId }) => {
           dataKey={"currentorders"}
         />
       )}
-      {error && <Error error={error} />}
+      {!isLoading && purchaseOrders && (
+        <InfoGrid
+          data={purchaseOrders}
+          title={"Zamówienia zakupu"}
+          dataKey={"purchaseorders"}
+        />
+      )}
+      {errors.length > 0 && (
+        <div>
+          {errors.map((err, index) => (
+            <Error key={index} error={err} />
+          ))}
+        </div>
+      )}
     </>
   );
 };

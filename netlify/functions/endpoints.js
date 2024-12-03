@@ -30,6 +30,8 @@ exports.handler = async (event) => {
       url = `${apiBase}/invoices?ticketId=${ticketId}`;
     } else if (endpoint === "overduepayments") {
       url = `${apiBase}/overduepayments?ticketId=${ticketId}`;
+    } else if (endpoint === "purchaseorders") {
+      url = `${apiBase}/purchaseorders?ticketId=${ticketId}`;
     } else {
       return {
         statusCode: 400,
@@ -47,7 +49,7 @@ exports.handler = async (event) => {
       return {
         statusCode: response.status,
         body: JSON.stringify({
-          error: `${response.status} Brak danych w SAP`,
+          error: `${response.status} Lack of data in SAP for ${endpoint} table`,
         }),
       };
     }
